@@ -1,0 +1,54 @@
+.logo {
+  float: left;
+  height: 55px;
+  width: 230px;
+  margin-bottom: 10px;
+}
+
+.loginPanelBody {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #62d49f;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.loginContext {
+  padding: 40px;
+}
+
+.root {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #def7eb;
+  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.subText {
+  float: left;
+  font-weight: 700 !important;
+  font-size: 15px;
+}
+
+.loginHeader {
+  margin-bottom: 32px;
+}
+
+form {
+  margin-top: 32px;
+}
+
+.loginButton {
+  margin-top: 32px !important;
+  float: right;
+  font-weight: 700 !important;
+  font-size: 16px;
+  margin-bottom: 32px;
+}
