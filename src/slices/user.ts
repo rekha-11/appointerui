@@ -47,13 +47,15 @@ interface State {
   username: string;
   userType: string | null;
   userList: { username: string }[];
+  companyId: number | null;
 }
 
 const initialState: State = {
   username: "",
   id: null,
   userType: null,
-  userList: []
+  userList: [],
+  companyId: null
 };
 
 const userSlice = createSlice({
@@ -81,6 +83,7 @@ const userSlice = createSlice({
         state.username = action.payload.username;
       }
       state.userType = action.payload.usertype;
+      state.companyId = action.payload.companyId;
     });
     builder.addCase(postUser.fulfilled, (state, action) => {
       state.userList = [...state.userList, action.payload];
