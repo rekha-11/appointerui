@@ -24,6 +24,8 @@ import { useNavigate } from "react-router-dom";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import Fade from "@mui/material/Fade";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { useAppSelector } from "../../store/hooks";
+import { startCase } from "lodash";
 
 const drawerWidth = 230;
 
@@ -31,22 +33,22 @@ const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
+    duration: theme.transitions.duration.enteringScreen
   }),
   overflowX: "hidden",
-  backgroundColor: "#f7f3f2",
+  backgroundColor: "#f7f3f2"
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
-  },
+    width: `calc(${theme.spacing(9)} + 1px)`
+  }
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -57,7 +59,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   marginLeft: "7px",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
+  ...theme.mixins.toolbar
 }));
 
 interface AppBarProps extends MuiAppBarProps {
@@ -81,14 +83,14 @@ function StatefulListItem(props: {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open"
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   marginBottom: "32px",
 
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
   ...(open && {
     marginBottom: "32px",
@@ -96,13 +98,13 @@ const AppBar = styled(MuiAppBar, {
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+      duration: theme.transitions.duration.enteringScreen
+    })
+  })
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open"
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -110,12 +112,12 @@ const Drawer = styled(MuiDrawer, {
   boxSizing: "border-box",
   ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme)
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
+    "& .MuiDrawer-paper": closedMixin(theme)
+  })
 }));
 
 export default function MiniDrawer() {
@@ -155,9 +157,12 @@ export default function MiniDrawer() {
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    navigate("/login");
     localStorage.removeItem("token");
+    window.location.href = "/login";
   };
+
+  const username = useAppSelector((state) => state.user.username);
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar position="fixed" open={open} color="primary" elevation={0}>
@@ -169,7 +174,7 @@ export default function MiniDrawer() {
             edge="start"
             sx={{
               marginRight: "32px",
-              ...(open && { display: "none" }),
+              ...(open && { display: "none" })
             }}
           >
             <MenuIcon />
@@ -181,12 +186,15 @@ export default function MiniDrawer() {
             width="100%"
           >
             <Box display="flex" alignItems="center">
+              <Typography variant="h5" sx={{ mr: "16px" }}>
+                {startCase(username)}
+              </Typography>
               <Box
                 style={{
                   height: "40px",
                   width: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "#e8edea",
+                  backgroundColor: "#e8edea"
                 }}
                 onClick={(e) => {
                   handleClickMenu(e);
@@ -195,14 +203,14 @@ export default function MiniDrawer() {
                 <AccountCircleOutlinedIcon
                   style={{
                     height: "40px",
-                    width: "40px",
+                    width: "40px"
                   }}
                 />
                 <Menu
                   id="long-menu"
                   onClose={handleClose}
                   MenuListProps={{
-                    "aria-labelledby": "fade-button",
+                    "aria-labelledby": "fade-button"
                   }}
                   anchorEl={anchorEl}
                   open={openMenu}

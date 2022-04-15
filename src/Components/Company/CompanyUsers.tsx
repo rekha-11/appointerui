@@ -7,19 +7,26 @@ import CreateUser from "./CreateUser";
 import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useParams } from "react-router-dom";
+import { getUsers } from "../../slices/user";
 
 export default function CompanyUsers() {
-  const id = useSelector((state: RootState) => state.user.id);
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(getUsers(Number(id)));
+  }, [dispatch, id]);
 
   const [openCreatePopup, setOpenCreatePopup] = useState(false);
-  console.log("popup", openCreatePopup);
-  const userList = [{ name: "User1", id: 1 }];
+
+  const userList = useAppSelector((state) => state.user.userList);
 
   const columns = useMemo(
     () => [
-      { Header: "Name", accessor: "name" },
-      { Header: "Action", accessor: "id" },
+      { Header: "Name", accessor: "username" },
+      { Header: "Action", accessor: "id" }
     ],
     []
   );
@@ -45,7 +52,7 @@ export default function CompanyUsers() {
         openPopup={openCreatePopup}
         setOpenPopup={setOpenCreatePopup}
       >
-        <CreateUser />
+        <CreateUser handleClose={() => setOpenCreatePopup(false)} />
       </Popup>
     </div>
   );

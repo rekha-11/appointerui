@@ -7,20 +7,25 @@ import { postUser } from "../../slices/user";
 import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
 
-type Props = {};
+type Props = {
+  handleClose: () => void;
+};
 
 export default function CreateUser(props: Props) {
+  const { handleClose } = props;
   const id = useSelector((state: RootState) => state.user.id);
   const dispatch = useDispatch();
 
   const formInitialValues = {
     userName: "",
-    companyId: id,
+    companyId: id
   };
 
-  const handleCreateUser = (values: any) => {
-    console.log(values);
-    dispatch(postUser({ user: values.username, companyId: values.companyId }));
+  const handleCreateUser = async (values: any) => {
+    await dispatch(
+      postUser({ user: values.userName, companyId: values.companyId })
+    );
+    handleClose();
   };
 
   return (
