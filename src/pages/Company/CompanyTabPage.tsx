@@ -55,19 +55,9 @@ export default function BasicTabs() {
             aria-label="basic tabs example"
           >
             <Tab label="Users" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
+        <TabPanel value={value} index={0}></TabPanel>
       </Box>
       {value === 0 && <CompanyUsers />}
     </>

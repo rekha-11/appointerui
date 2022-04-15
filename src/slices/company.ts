@@ -11,6 +11,15 @@ export const postCompany = createAsyncThunk(
   }
 );
 
+export const deleteCompany = createAsyncThunk(
+  "/companies/deleteCompany",
+  async (id: number) => {
+    await api.delete(`/deleteCompany/${id}`);
+    console.log(id);
+    return id;
+  }
+);
+
 export const getCompanies = createAsyncThunk(
   "/companies/getCompanies",
   async () => {
@@ -56,6 +65,11 @@ export const companyListSlice = createSlice({
     });
     builder.addCase(postCompany.fulfilled, (state, action) => {
       state.companyList = [...state.companyList, action.payload];
+    });
+    builder.addCase(deleteCompany.fulfilled, (state, action) => {
+      state.companyList = state.companyList.filter(
+        (el: any) => el.id !== action.payload
+      );
     });
   },
 });

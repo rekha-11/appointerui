@@ -3,13 +3,17 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import user from "../slices/user";
 import company from "../slices/company";
 import booking from "../slices/bookingSlice";
+import clients from "../slices/clients";
+import ServiceProviders from "../slices/spSlice";
 
 export const store = configureStore({
   reducer: {
     user,
     company,
-    booking
-  }
+    booking,
+    clients,
+    ServiceProviders,
+  },
 });
 
 setupListeners(store.dispatch);

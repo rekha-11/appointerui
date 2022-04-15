@@ -8,8 +8,8 @@ import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useParams } from "react-router-dom";
 import { getUsers } from "../../slices/user";
+import { useParams } from "react-router-dom";
 
 export default function CompanyUsers() {
   const { id } = useParams();
@@ -26,7 +26,7 @@ export default function CompanyUsers() {
   const columns = useMemo(
     () => [
       { Header: "Name", accessor: "username" },
-      { Header: "Action", accessor: "id" }
+      { Header: "Action", accessor: "id" },
     ],
     []
   );
@@ -35,6 +35,7 @@ export default function CompanyUsers() {
       <List
         columns={columns}
         data={userList}
+        url={`company/${id}/user`}
         addButton={
           <>
             <div

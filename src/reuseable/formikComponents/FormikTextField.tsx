@@ -33,9 +33,9 @@ export default function FormikTextField(props: Props) {
       <input
         type="text"
         name={name}
-        className="relative peer bg-gray-200 p-2 rounded w-full text-gray-700 focus: outline-none border-b-2 border-gray-300 focus:border-purple-600 transition duration-500"
+        className="relative peer  p-2 rounded w-full text-gray-700 focus: outline-none border-b-2 border-gray-300 focus:border-[#62d49f] transition duration-500"
         placeholder=" "
-        value={values[name] ? values[name] : " "}
+        value={values[name] ? values[name] : ""}
         onChange={(e: any) => handleOnChange(e.target.value)}
       />
       <p className="text-sm text-red-500">{errors[name]}</p>

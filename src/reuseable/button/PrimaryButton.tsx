@@ -5,6 +5,7 @@ interface IButtonProps {
   text: string | React.ReactNode;
   type?: any;
   buttonType?: string;
+
   [other: string]: unknown;
 }
 

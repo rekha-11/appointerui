@@ -11,15 +11,18 @@ export const getBookings = createAsyncThunk(
 
 export const postBooking = createAsyncThunk(
   "/postBooking",
-  async (data: Partial<Booking>) => {
+  async (data: Partial<Booking>, clientId) => {
     const bookings = await api.post(`/bookings`, data, {
-      headers: { Authorization: localStorage.getItem("token") as string }
+      headers: { Authorization: localStorage.getItem("token") as string },
     });
     return bookings.data;
   }
 );
 
 export interface Booking {
+  clientId: number;
+  status: string;
+  spId: any;
   id?: number;
   bookingStartDate: Date;
   bookingEndDate: Date;
@@ -32,7 +35,7 @@ interface State {
 }
 
 const initialState: State = {
-  bookings: []
+  bookings: [],
 };
 
 export const bookingSlice = createSlice({
@@ -46,7 +49,7 @@ export const bookingSlice = createSlice({
     builder.addCase(postBooking.fulfilled, (state, action) => {
       state.bookings = [...state.bookings, action.payload];
     });
-  }
+  },
 });
 
 export default bookingSlice.reducer;

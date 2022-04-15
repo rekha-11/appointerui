@@ -7,13 +7,16 @@ import Company from "../pages/Company";
 import CreateCompanyPage from "../pages/Company/CreateCompanyPage";
 import CompanyDetail from "../Components/Company/CompanyDetail";
 import CalendarPage from "../pages/Calendar/CalendarPage";
+import ClientsPage from "../pages/Clients/ClientsPage";
+import CreateClientPage from "../pages/Clients/CreateClientPage";
+import ServiceProvidersPage from "../pages/ServiceProviders/ServiceProvidersPage";
 
 export default function RoutesCollection(): JSX.Element {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={"/dashboard"} />} />
-
+      <Route path="/" element={<Navigate to={"/login"} />} />
       <Route path="/login" element={<LoginPage />} />
+
       <Route
         path="/company/:id"
         element={
@@ -23,10 +26,35 @@ export default function RoutesCollection(): JSX.Element {
         }
       />
       <Route
+        path="/serviceProviders"
+        element={
+          <Private>
+            <ServiceProvidersPage />
+          </Private>
+        }
+      />
+
+      <Route
         path="/calendar"
         element={
           <Private>
             <CalendarPage />
+          </Private>
+        }
+      />
+      <Route
+        path="/clients"
+        element={
+          <Private>
+            <ClientsPage />
+          </Private>
+        }
+      />
+      <Route
+        path="/client/create"
+        element={
+          <Private>
+            <CreateClientPage />
           </Private>
         }
       />

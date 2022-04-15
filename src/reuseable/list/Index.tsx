@@ -47,6 +47,7 @@ export default function List(props: Props) {
                 <tr
                   {...row.getRowProps}
                   onClick={() => {
+                    console.log(row.id);
                     navigate(`/${url}/${row.values.id}`);
                   }}
                 >

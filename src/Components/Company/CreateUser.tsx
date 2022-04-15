@@ -6,6 +6,7 @@ import FormikTextField from "../../reuseable/formikComponents/FormikTextField";
 import { postUser } from "../../slices/user";
 import { RootState } from "../../store/store";
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 type Props = {
   handleClose: () => void;
@@ -13,12 +14,12 @@ type Props = {
 
 export default function CreateUser(props: Props) {
   const { handleClose } = props;
-  const id = useSelector((state: RootState) => state.user.id);
+  const { id } = useParams();
   const dispatch = useDispatch();
 
   const formInitialValues = {
     userName: "",
-    companyId: id
+    companyId: id,
   };
 
   const handleCreateUser = async (values: any) => {

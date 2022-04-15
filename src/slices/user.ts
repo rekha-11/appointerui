@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { act } from "react-dom/test-utils";
 import api from "../utils/api";
 
 export const loginPost = createAsyncThunk(
@@ -15,17 +14,14 @@ export const loginPost = createAsyncThunk(
 );
 
 export const postUser = createAsyncThunk("user/postUser", async (data: any) => {
-  console.log("outer", data);
   const res = await api.post(`/createUser`, { data });
   return res.data;
 });
 
 export const getUser = createAsyncThunk("user/getUser", async () => {
-  console.log("ran");
   const userAccount = await axios.get(`http://localhost:4000/api/user`, {
-    headers: { Authorization: localStorage.getItem("token") as string }
+    headers: { Authorization: localStorage.getItem("token") as string },
   });
-  console.log("ran2");
   return userAccount.data;
 });
 
@@ -35,7 +31,7 @@ export const getUsers = createAsyncThunk(
     const userAccount = await axios.get(
       `http://localhost:4000/api/userList/${companyId}`,
       {
-        headers: { Authorization: localStorage.getItem("token") as string }
+        headers: { Authorization: localStorage.getItem("token") as string },
       }
     );
     return userAccount.data;
@@ -48,6 +44,7 @@ interface State {
   userType: string | null;
   userList: { username: string }[];
   companyId: number | null;
+  companyName: string;
 }
 
 const initialState: State = {
@@ -55,7 +52,8 @@ const initialState: State = {
   id: null,
   userType: null,
   userList: [],
-  companyId: null
+  companyId: null,
+  companyName: "",
 };
 
 const userSlice = createSlice({
@@ -69,16 +67,13 @@ const userSlice = createSlice({
     purgeUser: (state) => {
       state.id = null;
       state.userType = null;
-    }
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginPost.fulfilled, (state, action) => {
-      // state.id = action.payload.id;
-      // state.userType = action.payload.userType;
-    });
+    builder.addCase(loginPost.fulfilled, (state, action) => {});
     builder.addCase(getUser.fulfilled, (state, action) => {
+      state.companyName = action.payload.company.name;
       state.id = action.payload.id;
-      console.log(action.payload);
       if (action.payload.username) {
         state.username = action.payload.username;
       }
@@ -91,7 +86,7 @@ const userSlice = createSlice({
     builder.addCase(getUsers.fulfilled, (state, action) => {
       state.userList = action.payload;
     });
-  }
+  },
 });
 
 export default userSlice.reducer;

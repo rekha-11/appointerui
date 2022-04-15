@@ -15,7 +15,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Collapse } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BusinessIcon from "@mui/icons-material/Business";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -26,6 +25,8 @@ import Fade from "@mui/material/Fade";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { useAppSelector } from "../../store/hooks";
 import { startCase } from "lodash";
+import GroupIcon from "@mui/icons-material/Group";
+import PersonIcon from "@mui/icons-material/Person";
 
 const drawerWidth = 230;
 
@@ -33,22 +34,22 @@ const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen
+    duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  backgroundColor: "#f7f3f2"
+  backgroundColor: "#f7f3f2",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(9)} + 1px)`
-  }
+    width: `calc(${theme.spacing(9)} + 1px)`,
+  },
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -59,7 +60,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   marginLeft: "7px",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
-  ...theme.mixins.toolbar
+  ...theme.mixins.toolbar,
 }));
 
 interface AppBarProps extends MuiAppBarProps {
@@ -83,14 +84,14 @@ function StatefulListItem(props: {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   marginBottom: "32px",
 
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginBottom: "32px",
@@ -98,13 +99,13 @@ const AppBar = styled(MuiAppBar, {
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -112,12 +113,12 @@ const Drawer = styled(MuiDrawer, {
   boxSizing: "border-box",
   ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme)
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme)
-  })
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));
 
 export default function MiniDrawer() {
@@ -162,6 +163,9 @@ export default function MiniDrawer() {
   };
 
   const username = useAppSelector((state) => state.user.username);
+  const userType = useAppSelector((state) => state.user.userType);
+  const id = useAppSelector((state) => state.user.companyId);
+  const companyName = useAppSelector((state) => state.user.companyName);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -174,11 +178,14 @@ export default function MiniDrawer() {
             edge="start"
             sx={{
               marginRight: "32px",
-              ...(open && { display: "none" })
+              ...(open && { display: "none" }),
             }}
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h5" sx={{ mr: "16px" }}>
+            {startCase(companyName)}
+          </Typography>
           <Box
             display="flex"
             justifyContent="flex-end"
@@ -194,7 +201,7 @@ export default function MiniDrawer() {
                   height: "40px",
                   width: "40px",
                   borderRadius: "50%",
-                  backgroundColor: "#e8edea"
+                  backgroundColor: "#e8edea",
                 }}
                 onClick={(e) => {
                   handleClickMenu(e);
@@ -203,14 +210,14 @@ export default function MiniDrawer() {
                 <AccountCircleOutlinedIcon
                   style={{
                     height: "40px",
-                    width: "40px"
+                    width: "40px",
                   }}
                 />
                 <Menu
                   id="long-menu"
                   onClose={handleClose}
                   MenuListProps={{
-                    "aria-labelledby": "fade-button"
+                    "aria-labelledby": "fade-button",
                   }}
                   anchorEl={anchorEl}
                   open={openMenu}
@@ -237,24 +244,54 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
         <List>
-          <ListItem button onClick={() => navigate("/dashboard")}>
-            <ListItemIcon>
-              <DashboardIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button onClick={() => navigate("/calendar")}>
-            <ListItemIcon>
-              <CalendarTodayIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Calendar" />
-          </ListItem>
-          <ListItem button onClick={() => navigate("/companies")}>
-            <ListItemIcon>
-              <BusinessIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Companies" />
-          </ListItem>
+          {!(userType === "superAdmin") && (
+            <ListItem button onClick={() => navigate("/dashboard")}>
+              <ListItemIcon>
+                <DashboardIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          )}
+          {!(userType === "superAdmin") && (
+            <ListItem button onClick={() => navigate("/calendar")}>
+              <ListItemIcon>
+                <CalendarTodayIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Calendar" />
+            </ListItem>
+          )}
+          {userType === "superAdmin" && (
+            <ListItem button onClick={() => navigate("/companies")}>
+              <ListItemIcon>
+                <BusinessIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Companies" />
+            </ListItem>
+          )}
+          {!(userType === "superAdmin") && (
+            <ListItem button onClick={() => navigate("/clients")}>
+              <ListItemIcon>
+                <GroupIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Clients" />
+            </ListItem>
+          )}
+          {!(userType === "superAdmin") && (
+            <ListItem button onClick={() => navigate(`/company/${id}`)}>
+              <ListItemIcon>
+                <PersonIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="User" />
+            </ListItem>
+          )}
+          {!(userType === "superAdmin") && (
+            <ListItem button onClick={() => navigate("/serviceProviders")}>
+              <ListItemIcon>
+                <ManageAccountsIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Service Providers" />
+            </ListItem>
+          )}
         </List>
       </Drawer>
     </Box>
